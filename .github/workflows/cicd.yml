@@ -16,11 +16,14 @@ jobs:
         with:
           node-version: 16 # Or your preferred Node.js version
       - name: Install dependencies
-        run: npm install  # Or npm install if you don't have a package-lock.json
-      - name: Lint with HTMLHint
-        run: npm run lint # Runs htmlhint on HTML files in public folder
+        run: |
+            npm ci
+            npm run build
+            npm run test:unit
+            npm run lint
         
   deploy:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
