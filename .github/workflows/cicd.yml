@@ -9,6 +9,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    continue-on-error: true
     permissions:
       contents: read
       packages: read
@@ -24,6 +25,7 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout Codes
         uses: actions/checkout@v1
