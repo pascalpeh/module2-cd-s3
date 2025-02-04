@@ -7,20 +7,20 @@ on:
 
 jobs:
 
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     packages: read
-  #     # To report GitHub Actions status checks
-  #     statuses: write
-  #   steps:
-  #     - uses: actions/checkout@v1
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+    steps:
+      - uses: actions/checkout@v1
 
-  #     - name: Super-linter
-  #       uses: super-linter/super-linter@v7.2.1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.2.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   security:
     runs-on: ubuntu-latest
@@ -35,7 +35,7 @@ jobs:
           command: code test
                   
   deploy:
-    needs: security
+    needs: [ lint, security ]
     if: always()
     runs-on: ubuntu-latest
     steps:
