@@ -26,12 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Run Snyk Code scan on /public
+      - name: Run Snyk Code scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          path: ./public  # Scan only the /public directory
+        # with:
+        #   path: ./public  # Scan only the /public directory
                   
   deploy:
     needs: security
