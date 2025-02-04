@@ -6,23 +6,35 @@ on:
     - main
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      # To report GitHub Actions status checks
-      statuses: write
-    steps:
-      - uses: actions/checkout@v1
 
-      - name: Super-linter
-        uses: super-linter/super-linter@v7.2.1
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: read
+  #     # To report GitHub Actions status checks
+  #     statuses: write
+  #   steps:
+  #     - uses: actions/checkout@v1
+
+  #     - name: Super-linter
+  #       uses: super-linter/super-linter@v7.2.1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Snyk Code scan on /public
+        uses: snyk/actions/scan@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          path: ./public  # Scan only the /public directory
+                  
   deploy:
-    needs: lint
+    needs: security
     if: always()
     runs-on: ubuntu-latest
     steps:
